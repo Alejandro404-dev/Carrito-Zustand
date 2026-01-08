@@ -1,74 +1,138 @@
-# React + TypeScript + Vite
+# 🏎️ Super Carros – Carrito de Compras en React + TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una **refactorización completa** de mi primer carrito de compras desarrollado en JavaScript.  
+El objetivo principal fue **rediseñar la arquitectura**, **migrar a TypeScript** y **manejar el estado global con Zustand**, aplicando buenas prácticas modernas de React.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías utilizadas
 
-## React Compiler
+- ⚛️ **React**
+- 🟦 **TypeScript**
+- 🐻 **Zustand** (estado global)
+- 💾 **Zustand Persist** (persistencia en `localStorage`)
+- 🎨 **Bootstrap** (estilos)
+- ⚡ **Vite** (entorno de desarrollo)
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 📌 Funcionalidades principales
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Mostrar un catálogo de automóviles desde una base de datos simulada
+- Agregar automóviles al carrito
+- Incrementar y disminuir la cantidad de productos
+- Límite máximo de productos por ítem
+- Eliminar productos del carrito
+- Vaciar el carrito completamente
+- Calcular el costo total en tiempo real
+- Persistencia del carrito usando `localStorage`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🧠 Arquitectura y conceptos clave
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🔹 Tipado con TypeScript
+Se definen tipos claros para separar responsabilidades:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```ts
+export type Automovil = {
+  id: number
+  name: string
+  image: string
+  brand: string
+  year: number
+  topSpeed: string
+  price: number
+}
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+export type CartItem = Automovil & {
+  quantity: number
+}
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-"# Carrito-Zustand" 
+Automovil: representa un producto del catálogo
+
+CartItem: extiende Automovil añadiendo contexto de carrito (quantity)
+
+🔹 Manejo de estado con Zustand
+
+El estado del carrito se gestiona globalmente usando Zustand:
+
+cart: lista de productos en el carrito
+
+addToCart: agrega o incrementa un producto
+
+eliminarDelCarrito: elimina un producto
+
+vaciarCarrito: limpia el carrito
+
+actualizarCantidad: ajusta la cantidad (+ / -)
+
+costoTotal: calcula el total del carrito
+
+Además, se utiliza persist para mantener el estado aunque se recargue la página.
+
+Flujo de la aplicación
+
+App.tsx
+
+Importa la base de datos simulada
+
+Mapea los automóviles
+
+Renderiza un componente Automovil por cada item
+
+Automovil.tsx
+
+Recibe un automóvil como prop
+
+Muestra la información del producto
+
+Permite agregarlo al carrito usando Zustand
+
+Header + Carrito
+
+El carrito se renderiza desde el header
+
+Consume el estado global
+
+Permite modificar cantidades, eliminar productos y vaciar el carrito
+
+🗂️ Persistencia
+
+El carrito se guarda automáticamente en localStorage usando:
+
+persist(
+  (set, get) => ({ ... }),
+  { name: "cart-storage" }
+)
+Esto permite que el estado del carrito se conserve incluso al recargar la página.
+
+🛠️ Instalación y uso
+
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/tu-repo.git
+
+# Instalar dependencias
+npm install
+
+# Ejecutar el proyecto
+npm run dev
+
+📚 Aprendizajes clave
+
+Migración de JavaScript a TypeScript
+
+Tipado fuerte en componentes y estado global
+
+Manejo de estado sin Redux
+
+Separación clara entre catálogo y estado de carrito
+
+Persistencia de estado en aplicaciones React
+
+Autor
+
+Alejandro Alfonso Teherán Guardó
+Estudiante de Ingeniería de Sistemas y Computación
+Enfocado en Frontend, React, TypeScript y Arquitectura de Software 🚀
+
