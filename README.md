@@ -1,4 +1,4 @@
-# 🏎️ Super Carros – Carrito de Compras en React + TypeScript
+# – Carrito de Compras en React + TypeScript
 
 Este proyecto es una **refactorización completa** de mi primer carrito de compras desarrollado en JavaScript.  
 El objetivo principal fue **rediseñar la arquitectura**, **migrar a TypeScript** y **manejar el estado global con Zustand**, aplicando buenas prácticas modernas de React.
